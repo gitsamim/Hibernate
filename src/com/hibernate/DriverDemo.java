@@ -21,7 +21,7 @@ public class DriverDemo {
 			//create a student object
 			System.out.println("Creating new student object...");
 			
-			Student obj1 = new Student("Vikash", "Raj", "vikash.raj@google.com");
+			Student obj1 = new Student("Albert", "Einstein", "albert.einstein@hotmail.com");
 			
 			//start a transaction 
 			session.beginTransaction();

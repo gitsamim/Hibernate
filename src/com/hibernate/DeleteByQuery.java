@@ -8,7 +8,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.hibernate.basics.Student;
 
-public class ReadDriver {
+public class DeleteByQuery {
 
 	public static void main(String[] args) {
 		
@@ -19,25 +19,29 @@ public class ReadDriver {
 		Session session = factory.getCurrentSession();
 		
 		try {
-			
-			//create a student object
-			System.out.println("Creating new student object...");
-			
-			Student obj1 = new Student("Vikash", "Raj", "vikash.raj@google.com");
-			
+		/*	int stuId = 3;
 			//start a transaction 
 			session.beginTransaction();
 			System.out.println("Transaction Started...");
+
+			Student stu = session.get(Student.class, stuId);
+			System.out.println("Deleting the student...");
 			
-			//save the student object
-			session.save(obj1);
-		
-			System.out.println("Object is Saved...");
+			session.delete(stu); 
 			
 			//commit transaction
 			session.getTransaction().commit();
-			System.out.println("Transaction is Successfully Commited... \n");
-			System.out.println(" Done !");
+			System.out.println("Transaction is Successfully Commited... \n");  */
+			
+			//QUERY FOR UPDATE
+			session = factory.getCurrentSession();
+			session.beginTransaction();
+			session.createQuery("delete from Student s where s.firstName='Laray'").executeUpdate();
+			
+			
+			//commit transaction
+			session.getTransaction().commit();
+		
 			
 		} finally {
 			session.close();

@@ -8,7 +8,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.hibernate.basics.Student;
 
-public class ReadDriver {
+public class UpdateByQuery {
 
 	public static void main(String[] args) {
 		
@@ -19,25 +19,28 @@ public class ReadDriver {
 		Session session = factory.getCurrentSession();
 		
 		try {
-			
-			//create a student object
-			System.out.println("Creating new student object...");
-			
-			Student obj1 = new Student("Vikash", "Raj", "vikash.raj@google.com");
-			
+			int stuId = 3;
 			//start a transaction 
 			session.beginTransaction();
 			System.out.println("Transaction Started...");
-			
-			//save the student object
-			session.save(obj1);
-		
-			System.out.println("Object is Saved...");
+
+			Student stu = session.get(Student.class, stuId);
+			System.out.println("Updating the student...");
+			stu.setFirstName("Bikash"); 
 			
 			//commit transaction
 			session.getTransaction().commit();
 			System.out.println("Transaction is Successfully Commited... \n");
-			System.out.println(" Done !");
+			
+			//QUERY FOR UPDATE
+			session = factory.getCurrentSession();
+			session.beginTransaction();
+			session.createQuery("update Student s set firstName='Vikash' where s.lastName='Raj'").executeUpdate();
+			
+			
+			//commit transaction
+			session.getTransaction().commit();
+		
 			
 		} finally {
 			session.close();

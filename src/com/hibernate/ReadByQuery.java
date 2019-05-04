@@ -8,7 +8,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.hibernate.basics.Student;
 
-public class ReadDriver {
+public class ReadByQuery {
 
 	public static void main(String[] args) {
 		
@@ -19,30 +19,39 @@ public class ReadDriver {
 		Session session = factory.getCurrentSession();
 		
 		try {
-			
-			//create a student object
-			System.out.println("Creating new student object...");
-			
-			Student obj1 = new Student("Vikash", "Raj", "vikash.raj@google.com");
-			
 			//start a transaction 
 			session.beginTransaction();
 			System.out.println("Transaction Started...");
 			
-			//save the student object
-			session.save(obj1);
-		
-			System.out.println("Object is Saved...");
+			//query the student with Java property name not db column name 
+			List<Student> stuList = session.createQuery("from Student").getResultList();
 			
-			//commit transaction
+			//Display the student
+				showStudents(stuList);
+			
+		//Query with condition
+				stuList = session.createQuery(" from Student s where s.firstName like '%Sa%' ").getResultList();	
+				//Display the student
+				showStudents(stuList);
+				
+			//commit transaction			
 			session.getTransaction().commit();
 			System.out.println("Transaction is Successfully Commited... \n");
-			System.out.println(" Done !");
+
 			
 		} finally {
 			session.close();
 			System.out.println(" Session is Closed !");
 		}
+
+	}
+
+	private static void showStudents(List<Student> stuList) {
+		for(Student s : stuList)
+		{
+			System.out.println(s + "\n");
+		}
+
 	}
 
 }
