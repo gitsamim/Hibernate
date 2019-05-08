@@ -5,32 +5,35 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import com.hibernate.basics.Student;
+import com.hibernate.entity.*;
 
 public class DriverDemo {
 
 	public static void main(String[] args) {
 		
 		//create session factory
-		SessionFactory factory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Student.class).buildSessionFactory();
+		SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
+				.addAnnotatedClass(Instructor.class)
+				.addAnnotatedClass(InstructorDetail.class)
+				.buildSessionFactory();
 		
 		//create session
 		Session session = factory.getCurrentSession();
 		
 		try {
 			
-			//create a student object
-			System.out.println("Creating new student object...");
+			Instructor instructor = new Instructor("Lary", "Page", "lary.page@gmail.com");
 			
-			Student obj1 = new Student("Albert", "Einstein", "albert.einstein@hotmail.com");
+			InstructorDetail instructorDetail = new InstructorDetail("http://www.google/youtube", "Coding !!!");
 			
+			instructor.setInstructorDetail(instructorDetail); 
 			//start a transaction 
 			session.beginTransaction();
 			System.out.println("Transaction Started...");
 			
-			//save the student object
-			session.save(obj1);
+			session.save(instructor);
 		
-			System.out.println("Object is Saved...");
+			System.out.println("Object is Saved..." + instructor);
 			
 			//commit transaction
 			session.getTransaction().commit();
