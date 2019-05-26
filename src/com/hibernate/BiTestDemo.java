@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.hibernate.entity.*;
 
-public class DriverDemo {
+public class BiTestDemo {
 
 	public static void main(String[] args) {
 		
@@ -20,26 +20,25 @@ public class DriverDemo {
 		Session session = factory.getCurrentSession();
 		
 		try {
-			
-			Instructor instructor = new Instructor("Sundar", "Pichai", "sundar.pichai@gmail.com");
-			
-			InstructorDetail instructorDetail = new InstructorDetail("http://www.google/ai", "Football !!!");
-			
-			instructor.setInstructorDetail(instructorDetail); 
-			//start a transaction 
+		
 			session.beginTransaction();
 			System.out.println("Transaction Started...");
-			
-			session.save(instructor);
-		
-			System.out.println("Object is Saved..." + instructor);
+
+			int insDetail = 20;
+			InstructorDetail instructorDetail = session.get(InstructorDetail.class, insDetail);
+			System.out.println("InstructorDetail :" + instructorDetail);
+			System.out.println("InstructorDetail :" + instructorDetail.getInstructor());
 			
 			//commit transaction
 			session.getTransaction().commit();
 			System.out.println("Transaction is Successfully Commited... \n");
-			System.out.println(" Done !");
 			
-		} finally {
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
 			session.close();
 			System.out.println(" Session is Closed !");
 		}

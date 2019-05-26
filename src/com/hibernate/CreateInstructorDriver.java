@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.hibernate.entity.*;
 
-public class DriverDemo {
+public class CreateInstructorDriver {
 
 	public static void main(String[] args) {
 		
@@ -14,6 +14,7 @@ public class DriverDemo {
 		SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
 				.addAnnotatedClass(Instructor.class)
 				.addAnnotatedClass(InstructorDetail.class)
+				.addAnnotatedClass(Course.class)
 				.buildSessionFactory();
 		
 		//create session
@@ -21,9 +22,9 @@ public class DriverDemo {
 		
 		try {
 			
-			Instructor instructor = new Instructor("Sundar", "Pichai", "sundar.pichai@gmail.com");
+			Instructor instructor = new Instructor("Sabir", "Ahmed", "sabir.ahmed@gmail.com");
 			
-			InstructorDetail instructorDetail = new InstructorDetail("http://www.google/ai", "Football !!!");
+			InstructorDetail instructorDetail = new InstructorDetail("http://www.google/sabir", "Football !!!");
 			
 			instructor.setInstructorDetail(instructorDetail); 
 			//start a transaction 
@@ -41,6 +42,7 @@ public class DriverDemo {
 			
 		} finally {
 			session.close();
+			factory.close();
 			System.out.println(" Session is Closed !");
 		}
 

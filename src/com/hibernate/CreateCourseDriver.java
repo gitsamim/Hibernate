@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.hibernate.entity.*;
 
-public class DriverDemo {
+public class CreateCourseDriver {
 
 	public static void main(String[] args) {
 		
@@ -14,6 +14,7 @@ public class DriverDemo {
 		SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
 				.addAnnotatedClass(Instructor.class)
 				.addAnnotatedClass(InstructorDetail.class)
+				.addAnnotatedClass(Course.class)
 				.buildSessionFactory();
 		
 		//create session
@@ -21,18 +22,29 @@ public class DriverDemo {
 		
 		try {
 			
-			Instructor instructor = new Instructor("Sundar", "Pichai", "sundar.pichai@gmail.com");
-			
-			InstructorDetail instructorDetail = new InstructorDetail("http://www.google/ai", "Football !!!");
-			
-			instructor.setInstructorDetail(instructorDetail); 
 			//start a transaction 
 			session.beginTransaction();
-			System.out.println("Transaction Started...");
+			System.out.println(" Begin Transaction ...");
 			
-			session.save(instructor);
-		
-			System.out.println("Object is Saved..." + instructor);
+			//get the instruction from DB
+			
+			// create the Courses
+			
+			// add courses to instructor
+			
+			// save the Courses
+			
+			int insId = 4;
+			Instructor instructor = session.get(Instructor.class, insId);
+			
+			Course course1 = new Course("Geography");
+			Course course2 = new Course("History");
+			
+			instructor.add(course1);
+			instructor.add(course2);
+			
+			session.save(course1);
+			session.save(course2);
 			
 			//commit transaction
 			session.getTransaction().commit();
@@ -41,6 +53,7 @@ public class DriverDemo {
 			
 		} finally {
 			session.close();
+			factory.close();
 			System.out.println(" Session is Closed !");
 		}
 
